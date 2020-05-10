@@ -1,6 +1,6 @@
 
 // JGJS Functions
-var background, noFill, fill, stroke, noStroke, strokeWeight, rect, ellipse, arc, line, point, createCanvas, color, rgba2hex, hsva2hex, lineCap, cursor, text, textFont, textSize, textAlign, textLeading, angleMode, frameRate, pushMatrix, translate, rotate, scale, popMatrix, get, image, getImage, triangle, quad, beginShape, vertex, endShape, colorMode, dist, sqDist, imageSmoothing, noImageSmoothing, rrCol, constrain, map, textWidth;
+var background, noFill, fill, stroke, noStroke, strokeWeight, rect, ellipse, arc, line, point, createCanvas, color, rgba2hex, hsva2hex, lineCap, cursor, text, textFont, textSize, textAlign, textLeading, angleMode, frameRate, pushMatrix, translate, rotate, scale, popMatrix, get, image, getImage, triangle, quad, beginShape, vertex, endShape, colorMode, dist, sqDist, imageSmoothing, noImageSmoothing, rrCol, constrain, map, textWidth, cos, sin, tan, acos, asin, atan, atan2;
 // JGJS Variables
 var width, height, frameCount = 0, FPS = 1000/60, mouseX = 0, mouseY = 0, pmouseX = 0, pmouseY = 0, ROUND = "round", SQUARE = "butt", LEFT = "ArrowLeft", RIGHT = "ArrowRight", UP = "ArrowUp", DOWN = "ArrowDown", SHIFT = "Shift", CONTROL = "Control", BACKSPACE = "Backspace", ENTER = "Enter", RETURN = ENTER, TAB = "Tab", META = "Meta", ESCAPE = "Escape", CENTER = "center", TOP = "top", mouseIsPressed = false, keyIsPressed = false, keyCode, key, RGB = "rgb", HSB = "hsb", D2R = Math.PI/180;
 // JGJS Custom Event Listeners
@@ -23,6 +23,27 @@ var mousePressed, mouseReleased, keyPressed, keyReleased, mouseMoved, mouseClick
     var images = {};
     var fps = 60;
     var angleMult = Math.PI/180;
+    sin = function(t) {
+        return Math.sin(t * angleMult);
+    };
+    tan = function(t) {
+        return Math.tan(t * angleMult);
+    };
+    acos = function(c) {
+        return Math.acos(c) / angleMult;
+    };
+    asin = function(s) {
+        return Math.asin(s) / angleMult;
+    };
+    atan = function(t) {
+        return Math.atan(t) / angleMult;
+    };
+    atan2 = function(y, x) {
+        return Math.atan2(y, x) / angleMult;
+    };
+    cos = function(t) {
+        return Math.cos(t * angleMult);
+    };
     textWidth = function(t) {
         JG.ctx.font = JG.textSize + "px " + JG.textFont;
         return JG.ctx.measureText(t).width;
