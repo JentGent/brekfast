@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+    <script src="https://cdn.jsdelivr.net/gh/JentGent/brekfast/JG.gl.js"></script>
+    <script id="DOMHelper.js">
+        function id(i) {
+            return document.getElementById(i);
+        }
+        function ih(i) {
+            return id(i).innerHTML;
+        }
+        function create(t) {
+            return document.createElement(t);
+        }
+        // I'm too lazy to write this stuff out every time!
+    </script> <!--DOMHelper.js-->
+    <head>
+        <meta charset="utf-8">
+        <title>OcGL Demo - Metaball Haze</title>
+        <style>
+            body {
+                padding: 0px;
+                margin: 0px;
+                overflow: hidden;
+            }
+            canvas {
+                position: absolute;
+                top: -1px;
+                left: -1px;
+                border: 1px solid;
+                margin: 0px;
+                padding: 0px;
+            }
+            button {
+                position: absolute;
+                left: 430px;
+                top: 100px;
+                background-color: white;
+                border: 1px solid rgb(161, 161, 161);
+                border-radius: 5px;
+                padding: 10px;
+                color: blue;
+                font: 400 13.3333px Arial;
+                font-size: 18px;
+            }
+            button:hover {
+                border: 2px solid blue;
+                cursor: pointer;
+            }
+            div {
+                font-size: 30px;
+                margin: 20px;
+            }
+        </style>
+    </head>
+    <body></body>
+    <script id="mtb.vsh" type="vertex-shader">
+        precision highp float;
+        attribute vec2 vertPos;
+        void main() {
+            gl_Position = vec4(vertPos.xy, 0, 1);
+        }
+    </script> <!--mtb.vsh-->
+    <script id="mtb.fsh" type="fragment-shader">
+        #ifdef GL_ES
+        precision mediump float;
+        #endif
+        
+        uniform float u_time;
+        uniform vec2  u_res;
+        
+        const float SUM_MINIMUM = 1.0; // Smaller minimum=bigger blobs
+        const float GLOWING = 1.;
+        
+        vec3 colorTotal = vec3(0);
+        
+        // Balls! (radius, position, color)
+        struct ball {
+            float radius;
+            vec2 position;
+            vec3 color;
+        };
+        ball ball1 = ball(
+            20.,
+            vec2(150),
+            vec3(0, 1, 1)
+        );
+        ball ball2 = ball(
+            5.,
+            vec2(150),
+            vec3(0, 1, 0)
+        );
+        ball ball3 = ball(
+            10.,
+            vec2(150),
+            vec3(0, 0, 1)
+        );
+        ball ball4 = ball(
+            25.,
+            vec2(150),
+            vec3(1, 1, 0)
+        );
+        ball ball5 = ball(
+            25.,
+            vec2(100),
+            vec3(1, 0, 0)
+        );
+        
+        // How many metaballs
+        float numberMetaballs = 0.;
+        
+        float metaball(ball mb) {
+            float diffX = gl_FragCoord.x - mb.position.x;
+            float diffY = gl_FragCoord.y - mb.position.y;
+            float sqDiff = diffX * diffX + diffY * diffY;
+            float n = mb.radius * mb.radius / sqDiff;
+            if(GLOWING == 1.) {
+                colorTotal += mb.color * (sqrt(n) * GLOWING * 4.);
+                numberMetaballs += 1.5 + cos(u_time * 0.02) * 0.5;
+            }
+            else if(n > SUM_MINIMUM / 2.5) {
+                colorTotal += mb.color;
+                numberMetaballs ++;
+            }
+            return n;
+        } // Calculate metaballs
+        
+        void main() {
+            
+            // Make the blobs move
+            ball1.position.x = u_res.x/2. + sin(u_time * 0.025) * 40.;
+            ball1.position.y = u_res.y/2. + cos(u_time * 0.05) * 80.;
+            ball2.position.x = u_res.x/2. + cos(u_time * 0.05) * 40.;
+            ball2.position.y = u_res.y/2. + sin(u_time * 0.025) * 30.;
+            ball3.position.x = u_res.x/2. + cos(u_time * 0.05) * sin(u_time * 0.025) * 50.;
+            ball3.position.y = u_res.y/2. + sin(u_time * 0.025) * cos(u_time * 0.05) * 30.;
+            
+            // Add up sum for all metaballs
+            float sum = metaball(ball1);
+            sum += metaball(ball2);
+            sum += metaball(ball3);
+            sum += metaball(ball4);
+            sum += metaball(ball5);
+            
+            // Color output
+            vec3 c = vec3(0, 0, 0);
+            
+            // If metaball detected!
+            if(sum > SUM_MINIMUM || GLOWING == 1.) {
+                c = colorTotal / numberMetaballs;
+            }
+            gl_FragColor = vec4(c.r, c.g, c.b, 1); // Output color
+        }
+    </script> <!--mtb.fsh-->
+    <script id="main.js">
+        // Setup
+        var oc = OCGL;
+        var c = create("canvas");
+        c.width = 300;
+        c.height = 300;
+        oc.applyGL(c);
+        var can = create("canvas");
+        can.width = 600;
+        can.height = 600;
+        can.setAttribute("id", "display");
+        can.setAttribute("oncontextmenu", "return false");
+        var ctx = can.getContext("2d");
+        document.body.appendChild(can);
+        var FPS = 1000/60;
+        var frameCount = 0;
+        
+        // Prepare program
+        var mtb = new oc.Program(ih("mtb.vsh"), ih("mtb.fsh"));
+        
+        // Draw
+        var draw = function() {
+            oc.universalUniform("time", "1fv", [frameCount]);
+            oc.universalUniform("res", "2fv", [c.width, c.height]);
+            
+            oc.use(mtb);
+            oc.depthTest(false);
+            mtb.setUniform("color", "3fv", [0, 0.5, 1]);
+            oc.clearColor();
+            oc.clearDepth();
+            mtb.fullscreen();
+            
+            ctx.drawImage(c, 0, 0, 600, 600);
+            frameCount += 1;
+            setTimeout(draw, FPS);
+        };
+        draw();
+    </script> <!--main.js-->
+</html>
