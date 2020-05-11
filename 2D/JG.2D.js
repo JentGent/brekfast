@@ -6,7 +6,7 @@ var width, height, frameCount = 0, FPS = 1000/60, mouseX = 0, mouseY = 0, pmouse
 // JGJS Custom Event Listeners
 var mousePressed, mouseReleased, keyPressed, keyReleased, mouseMoved, mouseClicked, mouseOver, mouseOut, draw;
 (function() {
-    var version = "1.0.2";
+    var version = "1.0.3";
     var JG = {
         fill: [255, 255, 255, 255],
         stroke: [0, 0, 0, 255],
@@ -629,6 +629,7 @@ var mousePressed, mouseReleased, keyPressed, keyReleased, mouseMoved, mouseClick
             width = w;
             height = h;
             JG.ctx = JG.can.getContext("2d");
+            return JG.can;
         }
         catch(e) {
             throw new Error("Error creating canvas");
