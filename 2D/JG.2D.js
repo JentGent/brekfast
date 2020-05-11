@@ -1,11 +1,12 @@
 
 // JGJS Functions
-var background, noFill, fill, stroke, noStroke, strokeWeight, rect, ellipse, arc, line, point, createCanvas, color, rgba2hex, hsva2hex, lineCap, cursor, text, textFont, textSize, textAlign, textLeading, angleMode, frameRate, pushMatrix, translate, rotate, scale, popMatrix, get, image, getImage, triangle, quad, beginShape, vertex, endShape, colorMode, dist, sqDist, imageSmoothing, noImageSmoothing, rrCol, constrain, map, textWidth, cos, sin, tan, acos, asin, atan, atan2;
+var background, noFill, fill, stroke, noStroke, strokeWeight, rect, ellipse, arc, line, point, createCanvas, color, rgba2hex, hsva2hex, lineCap, cursor, text, textFont, textSize, textAlign, textLeading, angleMode, frameRate, pushMatrix, translate, rotate, scale, popMatrix, get, image, getImage, triangle, quad, beginShape, vertex, endShape, colorMode, dist, sqDist, imageSmoothing, noImageSmoothing, rrCol, constrain, map, textWidth, cos, sin, tan, acos, asin, atan, atan2, rgb;
 // JGJS Variables
 var width, height, frameCount = 0, FPS = 1000/60, mouseX = 0, mouseY = 0, pmouseX = 0, pmouseY = 0, ROUND = "round", SQUARE = "butt", LEFT = "ArrowLeft", RIGHT = "ArrowRight", UP = "ArrowUp", DOWN = "ArrowDown", SHIFT = "Shift", CONTROL = "Control", BACKSPACE = "Backspace", ENTER = "Enter", RETURN = ENTER, TAB = "Tab", META = "Meta", ESCAPE = "Escape", CENTER = "center", TOP = "top", mouseIsPressed = false, keyIsPressed = false, keyCode, key, RGB = "rgb", HSB = "hsb", D2R = Math.PI/180;
 // JGJS Custom Event Listeners
 var mousePressed, mouseReleased, keyPressed, keyReleased, mouseMoved, mouseClicked, mouseOver, mouseOut, draw;
 (function() {
+    var version = "1.0.2";
     var JG = {
         fill: [255, 255, 255, 255],
         stroke: [0, 0, 0, 255],
@@ -48,7 +49,7 @@ var mousePressed, mouseReleased, keyPressed, keyReleased, mouseMoved, mouseClick
         JG.ctx.font = JG.textSize + "px " + JG.textFont;
         return JG.ctx.measureText(t).width;
     };
-    console.log("M" + "a" + "de w" + "ith" + " JentGe" + "nt's " + "JG.2D.js" + " library v1.0.0.");
+    console.log("M" + "a" + "de w" + "ith" + " JentGe" + "nt's " + "JG.2D.js" + " library v" + version + ".");
     map = function(a, b, c, d, e) {
         return d + (e - d) * (a - b)/(c - b);
     };
@@ -489,6 +490,7 @@ var mousePressed, mouseReleased, keyPressed, keyReleased, mouseMoved, mouseClick
             : !a && a !== 0 ? rgba2hex(r, g, b, 255)
             : rgba2hex(r, g, b, a);
     };
+    rgb = color;
     var p = [[]];
     pushMatrix = function() {
         p.push([]);
@@ -544,7 +546,7 @@ var mousePressed, mouseReleased, keyPressed, keyReleased, mouseMoved, mouseClick
     };
     createCanvas = function(w, h) {
         frameCount = 0;
-        console.log("Thi" + "s" + " p" + "ro" + "gram" + " us" + "es" + " JentGent's" + " J" + "G" + ".2D." + "j" + "s " + "library v1.0.0.");
+        console.log("Thi" + "s" + " p" + "ro" + "gram" + " us" + "es" + " JentGent's" + " J" + "G" + ".2D." + "j" + "s " + "library v" + version + ".");
         try {
             var existed = JG.can;
             JG.can = document.createElement("canvas");
@@ -620,7 +622,7 @@ var mousePressed, mouseReleased, keyPressed, keyReleased, mouseMoved, mouseClick
     };
     function checkDraw() {
         if(draw) {
-            console.log("JG.2D.js v1.0.0 by JentGent @JentacularGent");
+            console.log("JG.2D.js v" + version + " by JentGent @JentacularGent");
             var drawString = draw.toString();
             drawString = (drawString.substring(0, drawString.length - 1) + "    setTimeout(draw, FPS);\n    frameCount += 1;\n    pmouseX = mouseX;\n    pmouseY = mouseY;}").replace(/KAInfiniteLoopProtect\(\);/g, "");
             draw = new Function("return " + drawString)();
