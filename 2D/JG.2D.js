@@ -2,7 +2,7 @@
 // JGJS Functions
 var background, noFill, fill, stroke, noStroke, strokeWeight, rect, ellipse, arc, line, point, createCanvas, color, rgba2hex, hsva2hex, lineCap, cursor, text, textFont, textSize, textAlign, textLeading, angleMode, frameRate, pushMatrix, translate, rotate, scale, popMatrix, get, image, getImage, triangle, quad, beginShape, vertex, endShape, colorMode, dist, sqDist, imageSmoothing, noImageSmoothing, rrCol, constrain, map, textWidth, cos, sin, tan, acos, asin, atan, atan2, rgb;
 // JGJS Variables
-var width, height, frameCount = 0, FPS = 1000/60, mouseX = 0, mouseY = 0, pmouseX = 0, pmouseY = 0, ROUND = "round", SQUARE = "butt", LEFT = "ArrowLeft", RIGHT = "ArrowRight", UP = "ArrowUp", DOWN = "ArrowDown", SHIFT = "Shift", CONTROL = "Control", BACKSPACE = "Backspace", ENTER = "Enter", RETURN = ENTER, TAB = "Tab", META = "Meta", ESCAPE = "Escape", CENTER = "center", TOP = "top", mouseIsPressed = false, keyIsPressed = false, keyCode, key, RGB = "rgb", HSB = "hsb", D2R = Math.PI/180;
+var width, height, frameCount = 0, FPS = 1000/60, mouseX = 0, mouseY = 0, pmouseX = 0, pmouseY = 0, ROUND = "round", SQUARE = "butt", LEFT = "ArrowLeft", RIGHT = "ArrowRight", UP = "ArrowUp", DOWN = "ArrowDown", SHIFT = "Shift", CONTROL = "Control", BACKSPACE = "Backspace", ENTER = "Enter", RETURN = ENTER, TAB = "Tab", META = "Meta", ESCAPE = "Escape", CENTER = "center", TOP = "top", mouseIsPressed = false, keyIsPressed = false, keyCode, key, RGB = "rgb", HSB = "hsb", D2R = Math.PI/180, mouseButton, MIDDLE = 0;
 // JGJS Custom Event Listeners
 var mousePressed, mouseReleased, keyPressed, keyReleased, mouseMoved, mouseClicked, mouseOver, mouseOut, draw;
 (function() {
@@ -566,9 +566,23 @@ var mousePressed, mouseReleased, keyPressed, keyReleased, mouseMoved, mouseClick
                     mouseY = y - rCan.top;
                 }, false);
                 JG.can.addEventListener("mousedown", function(e) {
+                    e = e || window.event;
+                    if("which" in e) {
+                        mouseButton = (e.which === 3 ? RIGHT : (e.which === 1 ? LEFT : MIDDLE));
+                    }
+                    else if("button" in e) {
+                        mouseButton = (e.which === 2 ? RIGHT : (e.which === 0 ? LEFT : MIDDLE));
+                    }
                     mouseIsPressed = true;
                 }, false);
                 JG.can.addEventListener("mouseup", function(e) {
+                    e = e || window.event;
+                    if("which" in e) {
+                        mouseButton = (e.which === 3 ? RIGHT : (e.which === 1 ? LEFT : MIDDLE));
+                    }
+                    else if("button" in e) {
+                        mouseButton = (e.which === 2 ? RIGHT : (e.which === 0 ? LEFT : MIDDLE));
+                    }
                     mouseIsPressed = false;
                 }, false);
                 JG.can.addEventListener("keydown", function(e) {
