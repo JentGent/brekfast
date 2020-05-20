@@ -2,7 +2,7 @@
 var OCGL;
 
 (function() {
-var version = "1.0.1";
+var version = "1.0.2";
 console.log("Made with Octory GL v" + version);
 var JG = {
     
@@ -61,9 +61,6 @@ Program.prototype.setAttribute = function(n, s, t, no, j, o) {
     gl.enableVertexAttribArray(l);
 }; // [Program].setAttribute(String name, Number sizePerItem, GLenum type, Boolean normalized, Number size, Number offset)
 Program.prototype.setUniform = function(n, t, v) {
-    if(n[0] !== "u" || n[1] !== "_") {
-        n = "u_" + n;
-    }
     t = "uniform" + t;
     if(gl[t]) {
         try {
