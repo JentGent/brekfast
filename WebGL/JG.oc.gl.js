@@ -82,7 +82,7 @@ Program.prototype.injectTexture = function(n, i, w, h, a, ws, wt, mf, Mf) {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, mf || gl.NEAREST_MIPMAP_LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, Mf || gl.NEAREST);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, a);
-    setUniform(this.program, n, "1iv", [i]);
+    this.setUniform(this.program, n, "1iv", [i]);
     return tex;
 }; // [Program].injectTexture(String name, Number index, Number width, number height, UInt8ClampedArray image, *GLfloat/GLint param1, *GLfloat/GLint param2, *GLfloat/GLint param3, *GLfloat/GLint param4)
 // Inject a texture [image] named [name] into texture index [index] with width [width] and height [height], with optional horizontal texture wrap [param1], vertical texture wrap [param2], minification filter [param3], and magnification filter [param4]
