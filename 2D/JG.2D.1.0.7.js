@@ -1,12 +1,12 @@
 
 // JGJS Functions
-var background, noFill, fill, stroke, noStroke, strokeWeight, rect, ellipse, arc, line, point, createCanvas, color, rgba2hex, hsva2hex, lineCap, cursor, text, textFont, textSize, textAlign, textLeading, angleMode, frameRate, pushMatrix, translate, rotate, scale, popMatrix, get, image, getImage, triangle, quad, beginShape, vertex, endShape, colorMode, dist, sqDist, imageSmoothing, noImageSmoothing, rrCol, constrain, map, textWidth, cos, sin, tan, acos, asin, atan, atan2, random, round, floor, ceil, max, min, abs, rgb;
+var background, noFill, fill, stroke, noStroke, strokeWeight, rect, ellipse, arc, line, point, createCanvas, color, rgba2hex, hsva2hex, lineCap, cursor, text, textFont, textSize, textAlign, textLeading, angleMode, frameRate, pushMatrix, translate, rotate, scale, popMatrix, get, image, getImage, triangle, quad, beginShape, vertex, endShape, colorMode, dist, sqDist, imageSmoothing, noImageSmoothing, rrCol, constrain, map, textWidth, cos, sin, tan, acos, asin, atan, atan2, random, round, floor, ceil, max, min, abs, sq, rgb;
 // JGJS Variables
 var width, height, frameCount = 0, FPS = 1000/60, mouseX = 0, mouseY = 0, pmouseX = 0, pmouseY = 0, ROUND = "round", SQUARE = "butt", LEFT = "ArrowLeft", RIGHT = "ArrowRight", UP = "ArrowUp", DOWN = "ArrowDown", SHIFT = "Shift", CONTROL = "Control", BACKSPACE = "Backspace", ENTER = "Enter", RETURN = ENTER, TAB = "Tab", META = "Meta", ESCAPE = "Escape", CENTER = "center", TOP = "top", mouseIsPressed = false, keyIsPressed = false, keyCode, key, RGB = "rgb", HSB = "hsb", D2R = Math.PI/180, mouseButton, MIDDLE = 0;
 // JGJS Custom Event Listeners
 var mousePressed, mouseReleased, keyPressed, keyReleased, mouseMoved, mouseClicked, mouseOver, mouseOut, draw;
 (function() {
-    var version = "1.0.5";
+    var version = "1.0.7";
     var JG = {
         fill: [255, 255, 255, 255],
         stroke: [0, 0, 0, 255],
@@ -35,6 +35,9 @@ var mousePressed, mouseReleased, keyPressed, keyReleased, mouseMoved, mouseClick
     floor = Math.floor;
     ceil = Math.ceil;
     abs = Math.abs;
+    sq = function(n) {
+        return n * n;
+    };
     sin = function(t) {
         return Math.sin(t * angleMult);
     };
